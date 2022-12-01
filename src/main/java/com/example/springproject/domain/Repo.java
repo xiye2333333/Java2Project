@@ -3,7 +3,7 @@ package com.example.springproject.domain;
 public class Repo {
     String name;
     int developerNum;
-    int most_active_developer;
+    String most_active_developer;
     int open_issues;
     int close_issues;
     double issue_solve_average;
@@ -14,7 +14,7 @@ public class Repo {
     int releases_top10_commits;
     int releases_commits;
 
-    public Repo(String name, int developerNum, int most_active_developer, int open_issues, int close_issues, double issue_solve_average, int issue_solve_max_day, int issue_solve_min_day, int releases, int commit_times, int releases_top10_commits, int releases_commits) {
+    public Repo(String name, int developerNum, String most_active_developer, int open_issues, int close_issues, double issue_solve_average, int issue_solve_max_day, int issue_solve_min_day, int releases, int commit_times, int releases_top10_commits, int releases_commits) {
         this.name = name;
         this.developerNum = developerNum;
         this.most_active_developer = most_active_developer;
@@ -32,7 +32,7 @@ public class Repo {
     public Repo(){
         this.name = "name";
         this.developerNum = 0;
-        this.most_active_developer = 0;
+        this.most_active_developer = "";
         this.open_issues = 0;
         this.close_issues = 0;
         this.issue_solve_average = 0;
@@ -52,7 +52,7 @@ public class Repo {
         return developerNum;
     }
 
-    public int getMost_active_developer() {
+    public String getMost_active_developer() {
         return most_active_developer;
     }
 
@@ -100,7 +100,7 @@ public class Repo {
         this.developerNum = developerNum;
     }
 
-    public void setMost_active_developer(int most_active_developer) {
+    public void setMost_active_developer(String most_active_developer) {
         this.most_active_developer = most_active_developer;
     }
 

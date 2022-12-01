@@ -2,8 +2,6 @@ package com.example.springproject.web;
 
 import com.example.springproject.domain.Repo;
 import com.example.springproject.service.RepoService;
-import com.jayway.jsonpath.Configuration;
-import com.jayway.jsonpath.JsonPath;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -70,13 +68,13 @@ public class RepoController {
             System.out.println(e);
         }
 
-        Object document = Configuration.defaultConfiguration().jsonProvider().parse(json);
-
-        arrayList.add(""+JsonPath.read(document, "$.repo"));
-        arrayList.add(""+JsonPath.read(document, "$.developers"));
-        arrayList.add(""+JsonPath.read(document, "$.most_active_developer.login"));
-        arrayList.add(""+JsonPath.read(document, "$.open_issues"));
-        arrayList.add(""+JsonPath.read(document, "$.close_issues"));
+//        Object document = Configuration.defaultConfiguration().jsonProvider().parse(json);
+//
+//        arrayList.add(""+JsonPath.read(document, "$.repo"));
+//        arrayList.add(""+JsonPath.read(document, "$.developers"));
+//        arrayList.add(""+JsonPath.read(document, "$.most_active_developer.login"));
+//        arrayList.add(""+JsonPath.read(document, "$.open_issues"));
+//        arrayList.add(""+JsonPath.read(document, "$.close_issues"));
 
         return arrayList;
     }
