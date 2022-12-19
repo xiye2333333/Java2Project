@@ -2,55 +2,123 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Demo</title>
+    <title>ChooseRepo</title>
     <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
-
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
 </head>
-<body>
-<h4>Demo Representation</h4>
-<table border="1">
-    <tr>
-        <th>Name</th>
-        <th>Developer_num</th>
-        <th>Most_active_developer</th>
-        <th>Open_issues</th>
-        <th>Close_issues</th>
-    </tr>
-    <tr>
-        <td id="1">var1</td>
-        <td id="2">var2</td>
-        <td id="3">var3</td>
-        <td id="4">var4</td>
-        <td id="5">var5</td>
-    </tr>
 
-</table>
-
-</body>
-<script>
-
-    var obj;
-
-    function main(){
-        $.ajax({
-            url:'/repo/getInfo1',	//这是后端接口的url
-            method:'get',
-            success:function (res) {
-                obj = res;
-                $("#1").text(obj.most_active_developer);
-                // $("#2").text(obj[1]);
-                // $("#3").text(obj[2]);
-                // $("#4").text(obj[3]);
-                // $("#5").text(obj[4]);
-                //res便是的数据便是后端拿到的数据
-                //这里需要注意：res为局部变量，
-                //所以需要在方法外定义一个变量把res赋值给他，才能在方法之外使用。
-            },
-        })
+<style>
+    #title {
+        color: saddlebrown;
+        font-size: 30px;
+        font-style: normal;
+        text-align: center;
+        font-family: Verdana, serif;
+        font-weight: bold;
+        -webkit-text-stroke: 2px wheat;
     }
 
-    main();
+
+    table {
+        border: 5px solid black;
+        border-image: linear-gradient(saddlebrown 8%, chocolate 40%, orange 65%, sandybrown 92%, burlywood 100%) 1;
+        border-collapse: separate;
+        border-spacing: 5px;
+        margin: 0 auto;
+        opacity: 80%;
+    }
+
+    th {
+        background-color: rgba(255, 251, 209, 0.9);
+        color: #471a04;
+        padding: 15px;
+        font-style: normal;
+        text-align: center;
+        font-weight: lighter;
+        font-size: 20px;
+        font-family: Verdana, serif;
+    }
+
+    td {
+        border: 1px solid white;
+        padding: 5px;
+        font-style: normal;
+        text-align: center;
+        font-size: 17px;
+        font-family: Verdana, serif;
+    }
 
 
-</script>
+
+    button {
+        background-color: rgba(255, 251, 209, 0.9);
+        color: #471a04;
+        padding: 15px;
+        font-style: normal;
+        text-align: center;
+        font-weight: lighter;
+        font-size: 20px;
+        font-family: Verdana, serif;
+        border: 2px solid #471a04;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 0 auto;
+        display: block;
+        box-shadow: 0 0 10px rgb(247,255,178);
+        height: 60px;
+        width: 150px;
+    }
+
+    body {
+        background-image: url("background.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    div{
+        text-align: center;
+        margin-top: 170px;
+        margin-bottom: 170px;
+    }
+</style>
+
+
+<body>
+
+    <div id="title">
+        <h1>Choose a repository</h1>
+    </div>
+    <div>
+        <table id="table">
+            <thead>
+            </thead>
+            <tbody id="repo">
+        </table>
+    </div>
+
+    <script>
+
+        function repoTable(){
+            var repo_table=document.getElementById('repo');
+            var tdstr='';
+            var but1="<button onClick='openRepo1()'>scikit_opt</button>";
+            var but2="<button onClick='openRepo2()'>docker</button>";
+            tdstr+='<td>'+but1+'</td>';
+            tdstr=tdstr+'</tr>';
+            tdstr+='<td>'+but2+'</td>';
+            tdstr=tdstr+'</tr>';
+            repo_table.innerHTML=tdstr;
+        }
+        function openRepo1(){
+            window.location.href = "showRepo1.html";
+        }
+        function openRepo2() {
+            window.location.href = "showRepo2.html";
+        }
+
+        repoTable();
+    </script>
+
+</body>
+
 </html>

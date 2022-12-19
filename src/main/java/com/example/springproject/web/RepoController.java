@@ -46,37 +46,17 @@ public class RepoController {
 
     @GetMapping("/getInfo1")
     public Repo getInfo_1(){
-        return repoService.findInfo();
+        return repoService.findInfo1();
+    }
+
+    @GetMapping("/refreshInfo")
+    public int refreshInfo(){
+        return repoService.refreshInfo();
     }
 
     @GetMapping("/getInfo2")
-    public ArrayList<String> getInfo_2() throws IOException {
-
-        ArrayList<String> arrayList = new ArrayList<>();
-
-        String json = "";
-
-        try {
-            BufferedReader in = new BufferedReader(new FileReader("src/temp.json"));
-            String str;
-            while ((str = in.readLine()) != null) {
-                System.out.println(str);
-                json = json.concat(str);
-            }
-//            System.out.println(str);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
-
-//        Object document = Configuration.defaultConfiguration().jsonProvider().parse(json);
-//
-//        arrayList.add(""+JsonPath.read(document, "$.repo"));
-//        arrayList.add(""+JsonPath.read(document, "$.developers"));
-//        arrayList.add(""+JsonPath.read(document, "$.most_active_developer.login"));
-//        arrayList.add(""+JsonPath.read(document, "$.open_issues"));
-//        arrayList.add(""+JsonPath.read(document, "$.close_issues"));
-
-        return arrayList;
+    public Repo getInfo_2(){
+        return repoService.findInfo2();
     }
 
 }

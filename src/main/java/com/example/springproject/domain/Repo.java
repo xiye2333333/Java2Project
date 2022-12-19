@@ -1,38 +1,73 @@
 package com.example.springproject.domain;
 
+import java.util.*;
+
 public class Repo {
     String name;
     int developerNum;
-    String most_active_developer;
+    ArrayList<Contributor> most_active_developer;
     int open_issues;
     int close_issues;
     double issue_solve_average;
+    double issue_solve_variance;
     int issue_solve_max_day;
     int issue_solve_min_day;
     int releases;
     int commit_times;
-    int releases_top10_commits;
-    int releases_commits;
+    Date[] commit_time;
+    int[] commit_between_releases;
+    List<Map.Entry<String,Integer>> commit_frequency;
+    String[] commit_frequency_time;
+    int[] commit_frequency_num;
+    String comments_body_wordCloud_path;
+    String issues_body_wordCloud_path;
+    String issues_title_wordCloud_path;
+    int[] commit_weekday;
 
-    public Repo(String name, int developerNum, String most_active_developer, int open_issues, int close_issues, double issue_solve_average, int issue_solve_max_day, int issue_solve_min_day, int releases, int commit_times, int releases_top10_commits, int releases_commits) {
-        this.name = name;
-        this.developerNum = developerNum;
-        this.most_active_developer = most_active_developer;
-        this.open_issues = open_issues;
-        this.close_issues = close_issues;
-        this.issue_solve_average = issue_solve_average;
-        this.issue_solve_max_day = issue_solve_max_day;
-        this.issue_solve_min_day = issue_solve_min_day;
-        this.releases = releases;
-        this.commit_times = commit_times;
-        this.releases_top10_commits = releases_top10_commits;
-        this.releases_commits = releases_commits;
+    public String[] getCommit_frequency_time() {
+        return commit_frequency_time;
     }
 
-    public Repo(){
+    public void setCommit_frequency_time(String[] commit_frequency_time) {
+        this.commit_frequency_time = commit_frequency_time;
+    }
+
+    public int[] getCommit_frequency_num() {
+        return commit_frequency_num;
+    }
+
+    public void setCommit_frequency_num(int[] commit_frequency_num) {
+        this.commit_frequency_num = commit_frequency_num;
+    }
+
+    public double getIssue_solve_variance() {
+        return issue_solve_variance;
+    }
+
+    public void setIssue_solve_variance(double issue_solve_variance) {
+        this.issue_solve_variance = issue_solve_variance;
+    }
+
+    public Date[] getCommit_time() {
+        return commit_time;
+    }
+
+    public void setCommit_time(Date[] commit_time) {
+        this.commit_time = commit_time;
+    }
+
+    public int[] getCommit_between_releases() {
+        return commit_between_releases;
+    }
+
+    public void setCommit_between_releases(int[] commit_between_releases) {
+        this.commit_between_releases = commit_between_releases;
+    }
+
+    public Repo() {
         this.name = "name";
         this.developerNum = 0;
-        this.most_active_developer = "";
+        this.most_active_developer = new ArrayList<>();
         this.open_issues = 0;
         this.close_issues = 0;
         this.issue_solve_average = 0;
@@ -40,8 +75,20 @@ public class Repo {
         this.issue_solve_min_day = 0;
         this.releases = 0;
         this.commit_times = 0;
-        this.releases_top10_commits = 0;
-        this.releases_commits = 0;
+        this.commit_time = new Date[0];
+        this.commit_between_releases = new int[0];
+        this.commit_frequency = new ArrayList<>();
+        this.commit_frequency_time = new String[0];
+        this.commit_frequency_num = new int[0];
+        this.commit_weekday = new int[7];
+    }
+
+    public int[] getCommit_weekday() {
+        return commit_weekday;
+    }
+
+    public void setCommit_weekday(int[] commit_weekday) {
+        this.commit_weekday = commit_weekday;
     }
 
     public String getName() {
@@ -52,13 +99,14 @@ public class Repo {
         return developerNum;
     }
 
-    public String getMost_active_developer() {
+    public ArrayList<Contributor> getMost_active_developer() {
         return most_active_developer;
     }
 
     public int getOpen_issues() {
         return open_issues;
     }
+
 
     public int getClose_issues() {
         return close_issues;
@@ -84,13 +132,6 @@ public class Repo {
         return commit_times;
     }
 
-    public int getReleases_top10_commits() {
-        return releases_top10_commits;
-    }
-
-    public int getReleases_commits() {
-        return releases_commits;
-    }
 
     public void setName(String name) {
         this.name = name;
@@ -100,7 +141,7 @@ public class Repo {
         this.developerNum = developerNum;
     }
 
-    public void setMost_active_developer(String most_active_developer) {
+    public void setMost_active_developer(ArrayList most_active_developer) {
         this.most_active_developer = most_active_developer;
     }
 
@@ -132,11 +173,43 @@ public class Repo {
         this.commit_times = commit_times;
     }
 
-    public void setReleases_top10_commits(int releases_top10_commits) {
-        this.releases_top10_commits = releases_top10_commits;
+    public List<Map.Entry<String, Integer>> getCommit_frequency() {
+        return commit_frequency;
     }
 
-    public void setReleases_commits(int releases_commits) {
-        this.releases_commits = releases_commits;
+    public void setCommit_frequency(List<Map.Entry<String, Integer>> commit_frequency) {
+        this.commit_frequency = commit_frequency;
+        this.commit_frequency_time = new String[commit_frequency.size()];
+        this.commit_frequency_num = new int[commit_frequency.size()];
+        for (Map.Entry<String, Integer> entry : commit_frequency) {
+            int month = Integer.parseInt(entry.getKey().split("-")[1])+1;
+            this.commit_frequency_time[commit_frequency.indexOf(entry)] = entry.getKey().split("-")[0] + "-" + month;
+            this.commit_frequency_num[commit_frequency.indexOf(entry)] = entry.getValue();
+        }
+//        System.out.println("commit_frequency_time: " + Arrays.toString(commit_frequency_time));
+    }
+
+    public String getComments_body_wordCloud_path() {
+        return comments_body_wordCloud_path;
+    }
+
+    public void setComments_body_wordCloud_path(String comments_body_wordCloud_path) {
+        this.comments_body_wordCloud_path = comments_body_wordCloud_path;
+    }
+
+    public String getIssues_body_wordCloud_path() {
+        return issues_body_wordCloud_path;
+    }
+
+    public void setIssues_body_wordCloud_path(String issues_body_wordCloud_path) {
+        this.issues_body_wordCloud_path = issues_body_wordCloud_path;
+    }
+
+    public String getIssues_title_wordCloud_path() {
+        return issues_title_wordCloud_path;
+    }
+
+    public void setIssues_title_wordCloud_path(String issues_title_wordCloud_path) {
+        this.issues_title_wordCloud_path = issues_title_wordCloud_path;
     }
 }

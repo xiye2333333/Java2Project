@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Repo1</title>
+    <script src="https://s3.pstatp.com/cdn/expire-1-M/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/echarts/4.3.0/echarts.min.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.5.1.min.js"></script>
+</head>
+
+<style>
+    #title {
+        color: saddlebrown;
+        font-size: 30px;
+        font-style: normal;
+        text-align: center;
+        font-family: Verdana, serif;
+        font-weight: bold;
+        -webkit-text-stroke: 2px wheat;
+    }
+
+    #developerGraph {
+        text-align: center;
+    }
+
+    table {
+        border: 5px solid black;
+        border-image: linear-gradient(saddlebrown 8%, chocolate 40%, orange 65%, sandybrown 92%, burlywood 100%) 1;
+        border-collapse: separate;
+        border-spacing: 5px;
+        margin: 0 auto;
+        opacity: 80%;
+    }
+
+    th {
+        background-color: rgba(247, 242, 198, 0.9);
+        color: #471a04;
+        padding: 15px;
+        font-style: normal;
+        text-align: center;
+        font-weight: lighter;
+        font-size: 20px;
+        font-family: Verdana, serif;
+    }
+
+    td {
+        background-color: rgba(255, 251, 209, 0.4);
+        border: 1px solid white;
+        padding: 5px;
+        font-style: normal;
+        text-align: center;
+        font-size: 17px;
+        font-family: Verdana, serif;
+    }
+
+    button {
+        background-color: rgba(255, 251, 209, 0.9);
+        color: #471a04;
+        padding: 15px;
+        font-style: normal;
+        text-align: center;
+        font-weight: lighter;
+        font-size: 18px;
+        font-family: Verdana, serif;
+        border: 2px solid #471a04;
+        border-radius: 8px;
+        cursor: pointer;
+        margin: 0 auto;
+        display: block;
+        box-shadow: 0 0 10px rgb(247,255,178);
+        height: 100px;
+        width: 150px;
+    }
+
+    body {
+        background-image: url("background.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+    }
+    div{
+        text-align: center;
+    }
+</style>
+
+<body>
+<!--选择标题-->
+<div id="title">
+    <h1>Select the items you want to review</h1>
+</div>
+<!--选择表格-->
+<div>
+    <table id="table">
+        <thead>
+        </thead>
+        <tbody id="item">
+    </table>
+</div>
+<!--developer数量表格-->
+<div id="developerNumber">
+    <h4>Number of developers</h4>
+    <table>
+        <thead>
+        </thead>
+        <tbody id="developerNum">
+    </table>
+</div>
+<!--developer top10表格-->
+<div id="developerTable">
+    <h4>Top 10 developers with the most commit counts</h4>
+    <table>
+        <thead>
+        <th>Name</th>
+        <th>#Commits</th>
+        </thead>
+        <tbody id="developerTop10">
+    </table>
+</div>
+<!--developer top10柱状图-->
+<div id="developerGraph" style="width: 800px;height:600px"></div>
+<!--issue数量表格-->
+<div id="issueTable">
+    <h4>Number of issues</h4>
+    <table>
+        <thead>
+        <th>Total</th>
+        <th>Open</th>
+        <th>Closed</th>
+        </thead>
+        <tbody id="issueNumber">
+    </table>
+</div>
+<!--issue数量饼图-->
+<div id="issueNumGraph" style="width: 600px;height:400px"></div>
+<!--issue时间表格-->
+<div id="issueTimeTable">
+    <h4>Typical issue resolution time / day</h4>
+    <table>
+        <thead>
+        <th>Average</th>
+        <th>Variance</th>
+        <th>Max</th>
+        <th>Min</th>
+        <th>Range</th>
+        </thead>
+        <tbody id="issueTimeNumber">
+    </table>
+</div>
+<!--issue word cloud picture-->
+<div id="issueWordCloud"></div>
+<!--releases数量表格-->
+<div id="releaseNumber">
+    <h4>Number of releases</h4>
+    <table>
+        <thead>
+        </thead>
+        <tbody id="releaseNum">
+    </table>
+</div>
+<!--release之间的commits表格-->
+<div id="releaseTable">
+    <h4>Number of commits in each release</h4>
+    <table>
+        <thead>
+        <th>Release</th>
+        <th>#Commits</th>
+        </thead>
+        <tbody id="releaseCommits">
+    </table>
+</div>
+<!--release commits柱状图-->
+<div id="releaseGraph" style="width: 800px;height:600px"></div>
+<!--commit weekday柱状图-->
+<div id="commitWeekGraph" style="width:600px;height:400px"></div>
+<!--commit时间分布折线图-->
+<div id="commitGraph" style="width: 1600px;height:400px"></div>
+
+<script>
+    function openIndex(){
+        window.location.href = "index.html";
+    }
+
+    function hidden() {
+        document.getElementById("developerNumber").style.display = "none";
+        document.getElementById("developerTable").style.display = "none";
+        document.getElementById("developerGraph").style.display = "none";
+        document.getElementById("issueTable").style.display = "none";
+        document.getElementById("issueNumGraph").style.display = "none";
+        document.getElementById("issueTimeTable").style.display = "none";
+        document.getElementById("issueWordCloud").style.display = "none";
+        document.getElementById("releaseNumber").style.display = "none";
+        document.getElementById("releaseTable").style.display = "none";
+        document.getElementById("releaseGraph").style.display = "none";
+        document.getElementById("commitWeekGraph").style.display = "none";
+        document.getElementById("commitGraph").style.display = "none";
+
+    }
+
+    hidden();
+
+    function itemTable() {
+        var item_table = document.getElementById('item');
+        var tdstr = '';
+        var but1 = "<button onClick='developers()'>Developers</button>";
+        var but2 = "<button onClick='issues()'>Issues</button>";
+        var but3 = "<button onClick='releases()'>Releases<br>&<br>Commits</button>";
+        var but4 = "<button onClick='openIndex()'>Return</button>";
+        tdstr += '<td>' + but1 + '</td>';
+        tdstr += '<td>' + but2 + '</td>';
+        tdstr += '<td>' + but3 + '</td>';
+        tdstr += '<td>' + but4 + '</td>';
+        item_table.innerHTML = tdstr;
+    }
+
+    itemTable();
+
+    function developers() {
+        hidden();
+        $.ajax({
+            url: '/repo/getInfo1',
+            method: 'get',
+            success: function (res) {
+                document.getElementById("developerNumber").style.display = "table";
+                document.getElementById("developerNumber").style.margin = "0 auto";
+                document.getElementById("developerNum").innerHTML = res.developerNum;
+
+                document.getElementById("developerTable").style.display = "table";
+                document.getElementById("developerTable").style.margin = "0 auto";
+                var developer_table = document.getElementById('developerTop10');
+                var row = '';
+                for (let i = 0; i < 10; i++) {
+                    row += '<tr><td>' + res.most_active_developer[i].name + '</td>' + '<td>' + res.most_active_developer[i].commits + '</td></tr>';
+                }
+                developer_table.innerHTML = row;
+
+                document.getElementById("developerGraph").style.display = "table";
+                document.getElementById("developerGraph").style.margin = "0 auto";
+                var myChart = echarts.init(document.getElementById('developerGraph'));
+                var option = {
+                    tooltip: {},
+                    legend: {
+                        data: ['Number of commits'],
+                        top: "10%",
+                        right: "10%"
+                    },
+                    xAxis: {
+                        data: res.most_active_developer.map(function (item) {
+                            return item.name;
+                        }),
+                        axisLabel: {
+                            interval: 0,
+                            rotate: 40
+                        },
+                    },
+                    yAxis: {},
+
+                    series: [{
+                        name: 'Number of commits',
+                        type: 'bar',
+                        data: res.most_active_developer.map(function (item) {
+                            return item.commits;
+                        })
+                    }]
+                };
+                myChart.setOption(option);
+            },
+        })
+    }
+
+    function issues() {
+        hidden();
+        $.ajax({
+            url: '/repo/getInfo1',
+            method: 'get',
+            success: function (res) {
+                document.getElementById("issueTable").style.display = "table";
+                document.getElementById("issueTable").style.margin = "0 auto";
+                var developer_table = document.getElementById('issueNumber');
+                var row = '';
+                var total = res.open_issues + res.close_issues;
+                row += '<tr><td>' + total + '</td>' + '<td>' + res.open_issues + '</td>' + '<td>' + res.close_issues + '</td></tr>';
+                developer_table.innerHTML = row;
+
+                document.getElementById("issueNumGraph").style.display = "table";
+                document.getElementById("issueNumGraph").style.margin = "0 auto";
+                var myChart1 = echarts.init(document.getElementById('issueNumGraph'));
+                myChart1.setOption({
+                    tooltip: {},
+                    series: [
+                        {
+                            name: 'Number of issues',
+                            type: 'pie',
+                            radius: '55%',
+                            data: [
+                                {value: res.open_issues, name: 'Open'},
+                                {value: res.close_issues, name: 'Closed'},
+                            ],
+                        }
+                    ]
+                })
+
+                document.getElementById("issueTimeTable").style.display = "table";
+                document.getElementById("issueTimeTable").style.margin = "0 auto";
+                var developer_table2 = document.getElementById('issueTimeNumber');
+                var row2 = '';
+                var range = res.issue_solve_max_day - res.issue_solve_min_day;
+                row2 += '<tr><td>' + res.issue_solve_average.toFixed(2) + '</td>' + '<td>' + res.issue_solve_variance.toFixed(2) + '</td>' + '<td>' + res.issue_solve_max_day + '</td>' + '<td>' + res.issue_solve_min_day + '</td>' + '<td>' + range + '</td></tr>';
+                developer_table2.innerHTML = row2;
+
+                document.getElementById("issueWordCloud").style.display = "block";
+                var path1 = "../scikit_opt/comments_body_wordCloud.png";
+                var path2 = "../scikit_opt/issues_title_wordCloud.png";
+                var path3 = "../scikit_opt/issues_body_wordCloud.png";
+                document.getElementById("issueWordCloud").innerHTML = "<h4> WordCloud of issue comments, issue titles and issue description</h4>" + "<img src='" + path1 + "' width='500px' height='500px' style='margin: 20px 20px 20px 20px;'>" + "<img src='" + path2 + "' width='500px' height='500px' style='margin: 20px 20px 20px 20px;'>" + "<img src='" + path3 + "' width='500px' height='500px' style='margin: 20px 20px 20px 20px;'>";
+            },
+        })
+    }
+
+    function releases() {
+        hidden();
+        $.ajax({
+            url: '/repo/getInfo1',
+            method: 'get',
+            success: function (res) {
+                document.getElementById("releaseNumber").style.display = "table";
+                document.getElementById("releaseNumber").style.margin = "0 auto";
+                document.getElementById("releaseNum").innerHTML = res.releases;
+
+                document.getElementById("releaseTable").style.display = "table";
+                document.getElementById("releaseTable").style.margin = "0 auto";
+                var developer_table = document.getElementById('releaseCommits');
+                var row = '';
+                for (let i = 1; i < res.releases; i++) {
+                    row += '<tr><td>' + i + '</td>' + '<td>' + res.commit_between_releases[i-1] + '</td></tr>';
+                }
+                developer_table.innerHTML = row;
+
+                document.getElementById("releaseGraph").style.display = "table";
+                document.getElementById("releaseGraph").style.margin = "0 auto";
+                var myChart = echarts.init(document.getElementById('releaseGraph'));
+                var option = {
+                    tooltip: {},
+                    legend: {
+                        data: ['Number of commits'],
+                        top: "10%"
+                    },
+                    xAxis: {
+                        data: res.commit_between_releases.map(function (item, index) {
+                            return index + 1;
+                        }),
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: 'Number of commits',
+                        type: 'bar',
+                        data: res.commit_between_releases.map(function (item) {
+                            return item;
+                        })
+                    }]
+                };
+                myChart.setOption(option);
+
+                document.getElementById("commitWeekGraph").style.display = "table";
+                document.getElementById("commitWeekGraph").style.margin = "0 auto";
+                var myChart = echarts.init(document.getElementById('commitWeekGraph'));
+                var option = {
+                    tooltip: {},
+                    legend: {
+                        data: ['Number of commits'],
+                        top: "10%",
+                        right: "10%"
+                    },
+                    xAxis: {
+                        data: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                        axisLabel: {
+                            interval: 0,
+                            rotate: 40
+                        },
+                    },
+                    yAxis: {},
+
+                    series: [{
+                        name: 'Number of commits',
+                        type: 'bar',
+                        data: res.commit_weekday.map(function (item) {
+                            return item;
+                        })
+                    }]
+                };
+                myChart.setOption(option);
+
+
+
+                document.getElementById("commitGraph").style.display = "table";
+                document.getElementById("commitGraph").style.margin = "0 auto";
+                var mCharts = echarts.init(document.getElementById("commitGraph"));
+                var option = {
+                    title: {
+                        text: 'Number of commits by month',
+                        left: 'center'
+                    },
+                    tooltip:{},
+                    legend: {
+                        data: ['Number of commits'],
+                        top: "10%",
+                        right: "10%"
+                    },
+                    xAxis:{
+                        type:'category',
+                        data: res.commit_frequency_time.map(function (item) {
+                            return item;
+                        }),
+                        axisLabel: {
+                            interval: 2,
+                            rotate: 40
+                        },
+                    },
+                    yAxis:{
+                        type:'value'
+                    },
+                    series:[
+                        {
+                            name:'Number of commits',
+                            type:'line',
+                            data: res.commit_frequency_num.map(function (item) {
+                                return item;
+                            })
+                        }
+                    ]
+                }
+                mCharts.setOption(option);
+            },
+        })
+    }
+
+</script>
+
+</body>
+
+</html>

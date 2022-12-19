@@ -7,15 +7,13 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="springproject" />
-        <module name="Spring-Project" />
-        <module name="CS209-project-22fall" />
+        <module name="Java2Project" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="CS209-project-22fall" options="-parameters" />
-      <module name="Spring-Project" options="-parameters" />
+      <module name="Java2Project" options="-parameters" />
       <module name="springproject" options="-parameters" />
     </option>
   </component>

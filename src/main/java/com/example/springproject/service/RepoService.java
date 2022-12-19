@@ -7,6 +7,10 @@ import java.util.List;
 
 public interface RepoService {
 
-    public Repo findInfo();
+    public Repo findInfo1();
+
+    public Repo findInfo2();
+
+    public int refreshInfo();
 
 }
